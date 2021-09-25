@@ -1,3 +1,10 @@
+HUPO2ULLEUNG_DATE = "2021-10-08"
+DOKDO_DATE = "2021-10-09"
+ULLEUNG2HUPO_DATE = "2021-10-10"
+
+HUPO_ID = 43030
+ULLEUNG_ID = 43110
+DOKDO_ID = 96330
 class BaseCofig:
     def __init__(self) -> None:
         self.request_url = "https://www.jhferry.com/booking/get_Departure.php"
@@ -23,26 +30,28 @@ class BaseCofig:
             }
         self.check_interval = 300 # seconds
         self.log_interval = 12 # counts
+        # self.check_interval = 10 # seconds
+        # self.log_interval = 10 # counts
         self.reservation_url = "https://www.jhferry.com/booking/booking.html"
 
 class UlleungConfig(BaseCofig):
-    def __init__(self) -> None:
+    def __init__(self, port_from, port_to, departure) -> None:
         super().__init__()
         self.request_data = { # Hupo to Ulleung
-            "idx": 1,
-            "fportid": 43030, # Port Hupo
-            "tportid": 43110, # Port Ulleung
-            "departure": "2021-10-08",
+            # "idx": 1,
+            "fportid": port_from, # Port Hupo
+            "tportid": port_to, # Port Ulleung
+            "departure": departure,
             }
 
 class DokdoConfig(BaseCofig):
-    def __init__(self) -> None:
+    def __init__(self, port_from, port_to, departure) -> None:
         super().__init__()
         self.request_data = { # Ulleung to Dokdo
-            "idx": 1,
-            "fportid": 43110, # Port Ulleng
-            "tportid": 96330, # Port Dokdo
-            "departure": "2021-10-09",
+            # "idx": 1,
+            "fportid": port_from, # Port Ulleng
+            "tportid": port_to, # Port Dokdo
+            "departure": departure,
             }
         
 

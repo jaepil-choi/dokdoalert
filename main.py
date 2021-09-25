@@ -1,38 +1,44 @@
 import config, scraper, notifier
 import time
 
-def main(send_log=False):
-    ulleung_config = config.UlleungConfig()
-    dokdo_config = config.DokdoConfig()
-
-    ulleung_scraper = scraper.TicketChecker("ulleung_scraper")
-    dokdo_scraper = scraper.TicketChecker("dokdo_scraper")
-
-    ulleung_scraper.set_attrs(
-        ulleung_config.request_url,
-        ulleung_config.request_headers,
-        ulleung_config.request_data,
-        ulleung_config.reservation_url
-    )
-    dokdo_scraper.set_attrs(
-        dokdo_config.request_url,
-        dokdo_config.request_headers,
-        dokdo_config.request_data,
-        dokdo_config.reservation_url
+def scrape(config, scraper):
+    scraper.set_attrs(
+        config.request_url,
+        config.request_headers,
+        config.request_data,
+        config.reservation_url
     )
 
-    ulleung_response_bs = ulleung_scraper.get_data()
-    dokdo_response_bs = dokdo_scraper.get_data()
-
-    ulleung_parsed = ulleung_scraper.parse_data(ulleung_response_bs)
-    dokdo_parsed = dokdo_scraper.parse_data(dokdo_response_bs)
-
-    ulleung_scraper.check_empty_seat(ulleung_parsed)
-    dokdo_scraper.check_empty_seat(dokdo_parsed)
+    response_bs = scraper.get_data()
+    parsed = scraper.parse_data(response_bs)
+    scraper.check_empty_seat(parsed)
 
     if send_log:
-        ulleung_scraper.send_messages(ulleung_parsed)
-        dokdo_scraper.send_messages(dokdo_parsed)
+        scraper.send_messages(response_bs)
+
+def main(send_log=False):
+
+    scrape(config.UlleungConfig(
+        port_from=config.HUPO_ID,
+        port_to=config.ULLEUNG_ID,
+        departure=config.HUPO2ULLEUNG_DATE,
+        ), 
+        scraper.TicketChecker("hupo2ulleung")
+        )
+    scrape(config.UlleungConfig(
+        port_from=config.ULLEUNG_ID,
+        port_to=config.HUPO_ID,
+        departure=config.ULLEUNG2HUPO_DATE,
+        ), 
+        scraper.TicketChecker("ulleung2hupo")
+        )
+    scrape(config.DokdoConfig(
+        port_from=config.ULLEUNG_ID,
+        port_to=config.DOKDO_ID,
+        departure=config.DOKDO_DATE,
+        ), 
+        scraper.TicketChecker("dokdo")
+        )
     
 
 if __name__ == "__main__":

@@ -9,7 +9,9 @@ class TelegramNotification:
         if isinstance(messages, str):
             messages = [messages]
         
+        message_filter = ['', ' ', '\n']
         messages = [str(message) for message in messages]
+        messages = [message for message in messages if message not in message_filter]
         
         telegram_send.send(messages=messages)
         print('Telegram: Messages sent')
