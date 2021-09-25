@@ -20,7 +20,7 @@ class TicketChecker:
         self.reservation_url = reservation_url
 
     def get_data(self):
-        response = requests.post(self.request_url, headers=self.request_header)
+        response = requests.post(self.request_url, data=self.request_data, headers=self.request_header)
         response_bs = bs(response.content, 'html.parser')
 
         return response_bs
