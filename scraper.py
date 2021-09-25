@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup as bs
-from . import notifier
+import notifier
+from typing import Union
 
 class TicketChecker:
     def __init__(self, name) -> None:
@@ -73,3 +74,6 @@ class TicketChecker:
                 messages.append(message)
             
             self.notifier.send_alert(messages=messages)
+    
+    def send_messages(self, messages:Union[str, list]):
+        self.notifier.send_alert(messages=messages)
