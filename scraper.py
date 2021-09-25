@@ -6,21 +6,21 @@ class TicketChecker:
     def __init__(self, name) -> None:
         self.name = name
         self.request_url = None
-        self.request_header = None
+        self.request_headers = None
         self.request_data = None
         self.reservation_url = None
 
         self.notifier = notifier.TelegramNotification()
         
 
-    def set_attrs(self, request_url, request_header, request_data, reservation_url):
+    def set_attrs(self, request_url, request_headers, request_data, reservation_url):
         self.request_url = request_url
-        self.request_header = request_header
+        self.request_headers = request_headers
         self.request_data = request_data
         self.reservation_url = reservation_url
 
     def get_data(self):
-        response = requests.post(self.request_url, data=self.request_data, headers=self.request_header)
+        response = requests.post(self.request_url, data=self.request_data, headers=self.request_headers)
         response_bs = bs(response.content, 'html.parser')
 
         return response_bs

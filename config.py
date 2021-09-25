@@ -21,8 +21,10 @@ class BaseCofig:
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36",
             "X-Requested-With": "XMLHttpRequest",
             }
+        self.check_interval = 300
+        self.reservation_url = "https://www.jhferry.com/booking/booking.html"
 
-class UlleungConfig:
+class UlleungConfig(BaseCofig):
     def __init__(self) -> None:
         super().__init__()
         self.request_data = { # Hupo to Ulleung
@@ -31,18 +33,17 @@ class UlleungConfig:
             "tportid": 43110, # Port Ulleung
             "departure": "2021-10-08",
             }
-        self.check_interval = 300
 
-class DokdoConfig:
+class DokdoConfig(BaseCofig):
     def __init__(self) -> None:
         super().__init__()
         self.request_data = { # Ulleung to Dokdo
             "idx": 1,
             "fportid": 43110, # Port Ulleng
             "tportid": 96330, # Port Dokdo
-            "departure": "2021-10-08",
+            "departure": "2021-10-09",
             }
-        self.check_interval = 300
+        
 
 
 
