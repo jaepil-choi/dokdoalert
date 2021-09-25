@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup as bs
+from . import notifier
 
 class TicketChecker:
     def __init__(self, name) -> None:
@@ -7,12 +8,16 @@ class TicketChecker:
         self.request_url = None
         self.request_header = None
         self.request_data = None
-        # TODO: Init Telegram Notifier 
+        self.reservation_url = None
 
-    def set_attrs(self, request_url, request_header, request_data):
+        self.notifier = notifier.TelegramNotification()
+        
+
+    def set_attrs(self, request_url, request_header, request_data, reservation_url):
         self.request_url = request_url
         self.request_header = request_header
         self.request_data = request_data
+        self.reservation_url = reservation_url
 
     def get_data(self):
         response = requests.post(self.request_url, headers=self.request_header)
@@ -49,4 +54,22 @@ class TicketChecker:
                 print(repr(e))
                 raise e
         
-        # TODO: Send Telegram notification if available
+        if available:
+            messages = []
+            for seat_info in available:
+                message = f"""
+                {seat_info['from_to']} 배편의 자리가 생겼습니다. 링크를 클릭해 예약을 진행하세요.
+                
+
+                예약 링크: {self.reservation_url}
+
+                잔여 좌석: {seat_info['seat_left']}
+
+                출발시간: {seat_info['dep_time']}
+                배편이름: {seat_info['ship']}
+                자리등급: {seat_info['seat_kind']}
+                """
+
+                messages.append(message)
+            
+            self.notifier.send_alert(messages=messages)
