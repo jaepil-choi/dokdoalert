@@ -29,7 +29,7 @@ class BaseCofig:
             "X-Requested-With": "XMLHttpRequest",
             }
         self.check_interval = 300 # seconds
-        self.log_interval = 12 # counts
+        self.log_interval = 12 * 6 # counts
         # self.check_interval = 10 # seconds
         # self.log_interval = 10 # counts
         self.reservation_url = "https://www.jhferry.com/booking/booking.html"
