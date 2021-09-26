@@ -58,6 +58,8 @@ if __name__ == "__main__":
             main(send_log=send_log)
             # print(f"Check count: {count}. Sleep for {sleep} seconds")
         except Exception as e:
+            print("Error in main() function.")
+            print(repr(e))
             run_notifier.send_alert([
                 "Error! The program has stopped.", 
                 e,
