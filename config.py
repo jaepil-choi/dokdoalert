@@ -5,6 +5,9 @@ ULLEUNG2HUPO_DATE = "2021-10-10"
 HUPO_ID = 43030
 ULLEUNG_ID = 43110
 DOKDO_ID = 96330
+
+SEND_LOG = False
+
 class BaseCofig:
     def __init__(self) -> None:
         self.request_url = "https://www.jhferry.com/booking/get_Departure.php"

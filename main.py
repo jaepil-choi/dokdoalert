@@ -49,7 +49,7 @@ if __name__ == "__main__":
     log_count = base_config.log_interval
     send_log = False
     while 1:
-        if count != 0 and count % log_count == 0:
+        if config.SEND_LOG and count != 0 and count % log_count == 0:
             send_log = True
         
         main(send_log=send_log)
