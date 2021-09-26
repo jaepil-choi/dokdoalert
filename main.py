@@ -44,6 +44,7 @@ def main(send_log=False):
 
 if __name__ == "__main__":
     base_config = config.BaseCofig()
+    run_notifier = notifier.TelegramNotification()
     
     count = 0
     sleep = base_config.check_interval
@@ -53,8 +54,15 @@ if __name__ == "__main__":
         if config.SEND_LOG and count != 0 and count % log_count == 0:
             send_log = True
         
-        main(send_log=send_log)
-        # print(f"Check count: {count}. Sleep for {sleep} seconds")
+        try:
+            main(send_log=send_log)
+            # print(f"Check count: {count}. Sleep for {sleep} seconds")
+        except Exception as e:
+            run_notifier.send_alert([
+                "Error! The program has stopped.", 
+                e,
+                "Restarting the loop.",
+                ])
         
         send_log = False
         count += 1
