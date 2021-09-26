@@ -73,6 +73,7 @@ class TicketChecker:
 
                 messages.append(message)
             
+            print("Seat found! Sending message")
             self.notifier.send_alert(messages=messages)
     
     def send_messages(self, messages:Union[str, list]):

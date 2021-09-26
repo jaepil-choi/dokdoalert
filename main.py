@@ -14,6 +14,7 @@ def scrape(config, scraper):
     scraper.check_empty_seat(parsed)
 
     if send_log:
+        print("Sending log data")
         scraper.send_messages(response_bs)
 
 def main(send_log=False):
@@ -53,7 +54,7 @@ if __name__ == "__main__":
             send_log = True
         
         main(send_log=send_log)
-        print(f"Check count: {count}. Sleep for {sleep} seconds")
+        # print(f"Check count: {count}. Sleep for {sleep} seconds")
         
         send_log = False
         count += 1
